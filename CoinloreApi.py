@@ -5,13 +5,14 @@ class CoinloreApi:
     def __init__(self, coin="", exchange=""):
         self.coin = coin
         self.exchange = exchange
-        self.exchanges_data = []
+        self.exchanges_data = []  # List to store exchange information
+        self.coins_data = []  # List to store coin information
 
     def determine(self):
         if not self.coin == "":
-            self.getCoin()
+            return self.getCoin()
         if not self.exchange == "":
-            self.getExchange()
+            return self.getExchange()
 
     def call_api_once(self, url):
         ENDPOINT = 'https://api.coinlore.net/api/' + url
@@ -21,7 +22,6 @@ class CoinloreApi:
         try:
             resp = get(ENDPOINT, headers=headers)
             resp.raise_for_status()
-            #print(resp.json())
             return resp.json()
         except Exception as e:
             print("Error occurred:", e)
@@ -40,7 +40,10 @@ class CoinloreApi:
 
     def getAllCoins(self):
         url = "tickers"
-        return self.call_api_once(url)
+        all_coins = self.call_api_once(url)
+        if all_coins:
+            self.coins_data.extend(all_coins['data'])  # Assuming the response has a 'data' key
+            return all_coins['data']
 
     def getAllExchanges(self):
         url = "exchanges"

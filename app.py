@@ -7,17 +7,23 @@ app = Flask(__name__)
 def home():
     api_caller = CoinloreApi()
     exchanges_data = api_caller.getAllExchanges()
-    names = []
+    coins_data = api_caller.getAllCoins()
+    
+    exchange_names = []
+    coin_names = []
 
     for exc in exchanges_data:
         exchange = exchanges_data[exc]
-        names.append(exchange["name"])
+        exchange_names.append(exchange["name"])
+    
+    for coin in coins_data:
+        coin_names.append({"id": coin["id"], "name": coin["name"]})
 
-    return render_template("index.html", exchanges=names)
+    return render_template("index.html", exchanges=exchange_names, coins=coin_names)
 
 @app.route("/exchange", methods=["POST"])
 def exchange():
-    coin = request.form.get("coin", "")
+    coin_id = request.form["coin"]
     exchange_name = request.form["exchange"]
     exchange_id = None
 
@@ -32,7 +38,7 @@ def exchange():
             break
 
     if exchange_id:
-        api_caller = CoinloreApi(coin, exchange_id)
+        api_caller = CoinloreApi(coin_id, exchange_id)
         exchange_data = api_caller.getExchange()
         return render_template("exchange.html", exchange_data=exchange_data)
     else:

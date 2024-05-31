@@ -5,22 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website Data</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <form method="POST" action="/exchange">
-        <label for="coin">Enter coin name:</label>
-        <input type="text" id="coin" name="coin"> <br>
+    <div class="container mt-5">
+        <form method="POST" action="/exchange">
+            <div class="form-group">
+                <label for="coin">Select coin:</label>
+                <select id="coin" name="coin" class="form-control">
+                    {% for coin in coins %}
+                    <option value="{{ coin.id }}">{{ coin.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="exchange">Select exchange:</label>
-        <select id="exchange" name="exchange">
-            {% for exchange in exchanges %}
-            <option value="{{ exchange }}">{{ exchange }}</option>
-            {% endfor %}
-        </select> <br>
+            <div class="form-group">
+                <label for="exchange">Select exchange:</label>
+                <select id="exchange" name="exchange" class="form-control">
+                    {% for exchange in exchanges %}
+                    <option value="{{ exchange }}">{{ exchange }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <button type="submit">Submit</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
