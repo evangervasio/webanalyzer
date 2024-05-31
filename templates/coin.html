@@ -11,9 +11,28 @@
 
 <body>
     <div class="container mt-5">
-        <h2>Coin Data</h2>
+        <h2 class="mb-4">Coin Data</h2>
         {% if coin_data %}
-        <pre>{{ coin_data | tojson(indent=2) }}</pre>
+        <div class="card">
+            <div class="card-header">
+                {{ coin_data[0].name }} ({{ coin_data[0].symbol }})
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Rank: {{ coin_data[0].rank }}</h5>
+                <p class="card-text">
+                    <strong>Price USD:</strong> ${{ coin_data[0].price_usd }}<br>
+                    <strong>Price BTC:</strong> {{ coin_data[0].price_btc }} BTC<br>
+                    <strong>Market Cap USD:</strong> ${{ coin_data[0].market_cap_usd }}<br>
+                    <strong>Volume 24h:</strong> ${{ coin_data[0].volume24 }}<br>
+                    <strong>Change 1h:</strong> {{ coin_data[0].percent_change_1h }}%<br>
+                    <strong>Change 24h:</strong> {{ coin_data[0].percent_change_24h }}%<br>
+                    <strong>Change 7d:</strong> {{ coin_data[0].percent_change_7d }}%<br>
+                    <strong>Total Supply:</strong> {{ coin_data[0].tsupply }}<br>
+                    <strong>Max Supply:</strong> {{ coin_data[0].msupply }}<br>
+                    <strong>Circulating Supply:</strong> {{ coin_data[0].csupply }}
+                </p>
+            </div>
+        </div>
         {% else %}
         <p>No data available for the selected coin.</p>
         {% endif %}

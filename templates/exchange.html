@@ -14,8 +14,36 @@
         <h2 class="mb-4">Exchange Data</h2>
         {% if exchange_data %}
         <div class="row">
-            <!-- Use a card for each piece of data -->
             {% for key, value in exchange_data.items() %}
+            {% if key == 'pairs' %}
+            <div class="col-12">
+                <h3>{{ key | capitalize }}</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Base</th>
+                            <th>Quote</th>
+                            <th>Volume</th>
+                            <th>Price</th>
+                            <th>Price USD</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pair in value %}
+                        <tr>
+                            <td>{{ pair.base }}</td>
+                            <td>{{ pair.quote }}</td>
+                            <td>{{ pair.volume }}</td>
+                            <td>{{ pair.price }}</td>
+                            <td>{{ pair.price_usd }}</td>
+                            <td>{{ pair.time }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
             <div class="col-md-6 mb-3">
                 <div class="card">
                     <div class="card-header">
@@ -42,6 +70,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
         {% else %}
