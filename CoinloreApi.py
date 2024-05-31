@@ -5,8 +5,8 @@ class CoinloreApi:
     def __init__(self, coin="", exchange=""):
         self.coin = coin
         self.exchange = exchange
-        self.exchanges_data = []  # List to store exchange information
-        self.coins_data = []  # List to store coin information
+        self.exchanges_data = []
+        self.coins_data = []
 
     def determine(self):
         if not self.coin == "":
@@ -42,7 +42,7 @@ class CoinloreApi:
         url = "tickers"
         all_coins = self.call_api_once(url)
         if all_coins:
-            self.coins_data.extend(all_coins['data'])  # Assuming the response has a 'data' key
+            self.coins_data.extend(all_coins['data'])
             return all_coins['data']
 
     def getAllExchanges(self):

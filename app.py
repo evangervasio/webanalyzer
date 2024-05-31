@@ -10,16 +10,18 @@ def home():
     coins_data = api_caller.getAllCoins()
     
     exchange_names = []
+    exchange_volumes = []
     coin_names = []
 
     for exc in exchanges_data:
         exchange = exchanges_data[exc]
         exchange_names.append(exchange["name"])
+        exchange_volumes.append(exchange["volume_usd"])
     
     for coin in coins_data:
         coin_names.append({"id": coin["id"], "name": coin["name"]})
 
-    return render_template("index.html", exchanges=exchange_names, coins=coin_names)
+    return render_template("index.html", exchanges=exchange_names, coins=coin_names, exchange_names=exchange_names, exchange_volumes=exchange_volumes)
 
 @app.route("/exchange", methods=["POST"])
 def exchange():
@@ -29,7 +31,6 @@ def exchange():
 
     api_caller = CoinloreApi()
 
-    # Fetch all exchanges to find the selected one by name
     exchanges_data = api_caller.getAllExchanges()
 
     for exc in exchanges_data:

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,40 +6,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website Data</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container mt-5">
-        <form method="POST" action="/coin" id="coinForm">
-            <div class="form-group">
-                <label for="coin">Select coin:</label>
-                <select id="coin" name="coin" class="form-control">
-                    {% for coin in coins %}
-                    <option value="{{ coin.id }}">{{ coin.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Coin</button>
+        <form method="POST" action="/coin">
+            <label for="coin">Select coin:</label>
+            <select id="coin" name="coin" class="form-control mb-3">
+                {% for coin in coins %}
+                <option value="{{ coin.id }}">{{ coin.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Get Coin Data</button>
         </form>
-        <form method="POST" action="/exchange" id="exchangeForm">
-            <div class="form-group">
-                <label for="exchange">Select exchange:</label>
-                <select id="exchange" name="exchange" class="form-control">
-                    {% for exchange in exchanges %}
-                    <option value="{{ exchange }}">{{ exchange }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Exchange</button>
+
+        <form method="POST" action="/exchange" class="mt-3">
+            <label for="exchange">Select exchange:</label>
+            <select id="exchange" name="exchange" class="form-control mb-3">
+                {% for exchange in exchanges %}
+                <option>{{ exchange }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Get Exchange Data</button>
         </form>
+
+        <canvas id="volumeChart" width="400" height="200" class="mt-5"></canvas>
+
+        {% if raw_data %}
+        <h2 class="mt-4">Raw Data:</h2>
+        <pre>{{ raw_data }}</pre>
+        {% endif %}
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('volumeChart').getContext('2d');
+        const volumeChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ exchange_names | tojson }},
+        datasets: [{
+            label: 'Volume USD',
+            data: {{ exchange_volumes | tojson }},
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+                }]
+            },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+        });
+    </script>
 </body>
 
 </html>
