@@ -9,10 +9,15 @@
 
 <body>
     <form method="POST">
-        <label for="website">Enter coin name:</label>
+        <label for="coin">Enter coin name:</label>
         <input type="text" id="coin" name="coin"> <br>
-        <label for="website">Enter exchange name:</label>
-        <input type="text" id="exchange" name="exchange"> <br>
+
+        <label for="exchange">Select exchange:</label>
+        <select id="exchange" name="exchange">
+            {% for exchange in exchanges %}
+            <option value="{{ exchange.id }}">{{ exchange }}</option>
+            {% endfor %}
+        </select> <br>
 
         <button type="submit">Submit</button>
     </form>

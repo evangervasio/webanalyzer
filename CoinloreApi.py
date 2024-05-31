@@ -2,17 +2,17 @@ from requests import get
 from urllib.parse import urlparse
 
 class CoinloreApi:
-    def __init__(self, coin, exchange):
+    def __init__(self, coin="", exchange=""):
         self.coin = coin
         self.exchange = exchange
+        self.exchanges_data = []
 
-    #determines what method to call based on the variables set 
     def determine(self):
-        if not self.coin=="":
-            self.apiCoin()
-        if not self.exchange=="":
-            self.apiExchange()
-    
+        if not self.coin == "":
+            self.getCoin()
+        if not self.exchange == "":
+            self.getExchange()
+
     def call_api_once(self, url):
         ENDPOINT = 'https://api.coinlore.net/api/' + url
         headers = {
@@ -20,25 +20,31 @@ class CoinloreApi:
         }
         try:
             resp = get(ENDPOINT, headers=headers)
-            print("Response status code:", resp.status_code)
-            print("Response text:", resp.text)
             resp.raise_for_status()
+            #print(resp.json())
             return resp.json()
         except Exception as e:
             print("Error occurred:", e)
             return False
-        
+
     def getCoin(self):
-        url="ticker/?id="+self.coin
-        self.call_api_once(url)
+        url = "ticker/?id=" + self.coin
+        return self.call_api_once(url)
 
     def getExchange(self):
-        url="exchange/?id="+self.exchange
-        self.call_api_once(url)
-        print(1)
+        url = "exchange/?id=" + self.exchange
+        exchange_data = self.call_api_once(url)
+        if exchange_data:
+            self.exchanges_data.append(exchange_data)
+            return exchange_data
 
     def getAllCoins(self):
-        print(1)
-    
+        url = "tickers"
+        return self.call_api_once(url)
+
     def getAllExchanges(self):
-        print(1)
+        url = "exchanges"
+        all_exchanges = self.call_api_once(url)
+        if all_exchanges:
+            self.exchanges_data.extend(all_exchanges)
+            return all_exchanges
