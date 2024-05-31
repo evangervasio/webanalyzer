@@ -5,17 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exchange Data</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <h2>Exchange Data:</h2>
-    {% if exchange_data %}
-    <pre>{{ exchange_data | tojson(indent=2) }}</pre>
-    {% else %}
-    <p>No data available for the selected exchange.</p>
-    {% endif %}
-    <br>
-    <a href="/">Go back</a>
+    <div class="container mt-5">
+        <h2 class="mb-4">Exchange Data</h2>
+        {% if exchange_data %}
+        <div class="row">
+            <!-- Use a card for each piece of data -->
+            {% for key, value in exchange_data.items() %}
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        {{ key | capitalize }}
+                    </div>
+                    <div class="card-body">
+                        {% if value is string %}
+                        <p class="card-text">{{ value }}</p>
+                        {% elif value is mapping %}
+                        <ul class="list-group list-group-flush">
+                            {% for subkey, subvalue in value.items() %}
+                            <li class="list-group-item"><strong>{{ subkey | capitalize }}:</strong> {{ subvalue }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% elif value is sequence %}
+                        <ul class="list-group list-group-flush">
+                            {% for item in value %}
+                            <li class="list-group-item">{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="card-text">{{ value }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No data available for the selected exchange.</p>
+        {% endif %}
+        <br>
+        <a href="/" class="btn btn-primary">Go back</a>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
