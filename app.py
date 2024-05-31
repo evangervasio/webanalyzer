@@ -23,7 +23,7 @@ def home():
 
 @app.route("/exchange", methods=["POST"])
 def exchange():
-    coin_id = request.form["coin"]
+    coin_id = request.form.get("coin", "")
     exchange_name = request.form["exchange"]
     exchange_id = None
 
@@ -43,6 +43,15 @@ def exchange():
         return render_template("exchange.html", exchange_data=exchange_data)
     else:
         return "Exchange not found", 404
+
+@app.route("/coin", methods=["POST"])
+def coin():
+    coin_id = request.form["coin"]
+
+    api_caller = CoinloreApi(coin=coin_id)
+    coin_data = api_caller.getCoin()
+
+    return render_template("coin.html", coin_data=coin_data)
 
 if __name__ == "__main__":
     app.run(debug=True)

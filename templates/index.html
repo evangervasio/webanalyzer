@@ -11,7 +11,7 @@
 
 <body>
     <div class="container mt-5">
-        <form method="POST" action="/exchange">
+        <form method="POST" action="/coin" id="coinForm">
             <div class="form-group">
                 <label for="coin">Select coin:</label>
                 <select id="coin" name="coin" class="form-control">
@@ -20,7 +20,9 @@
                     {% endfor %}
                 </select>
             </div>
-
+            <button type="submit" class="btn btn-primary">Submit Coin</button>
+        </form>
+        <form method="POST" action="/exchange" id="exchangeForm">
             <div class="form-group">
                 <label for="exchange">Select exchange:</label>
                 <select id="exchange" name="exchange" class="form-control">
@@ -29,8 +31,7 @@
                     {% endfor %}
                 </select>
             </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit Exchange</button>
         </form>
     </div>
 
