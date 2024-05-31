@@ -2,13 +2,19 @@ from requests import get
 from urllib.parse import urlparse
 
 class CoinloreApi:
-    def __init__(self, website):
-        self.website = website
+    def __init__(self, coin, exchange):
+        self.coin = coin
+        self.exchange = exchange
 
-    def call_api_once(self):
-        domain = '{uri.netloc}'.format(uri=urlparse(self.website))
-        domain = domain.replace("www.", "")
-        ENDPOINT = 'https://data.similarweb.com/api/v1/data?domain=' + domain
+    #determines what method to call based on the variables set 
+    def determine(self):
+        if not self.coin=="":
+            self.apiCoin()
+        if not self.exchange=="":
+            self.apiExchange()
+    
+    def call_api_once(self, url):
+        ENDPOINT = 'https://api.coinlore.net/api/' + url
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
         }
@@ -21,3 +27,16 @@ class CoinloreApi:
         except Exception as e:
             print("Error occurred:", e)
             return False
+        
+    def apiCoin(self):
+        url="/coin/markets/?id=90"
+        self.call_api_once(url)
+
+    def apiExchange(self):
+        print(1)
+
+    def apiGraphCoin(self):
+        print(1)
+    
+    def apiGraphExchange(self):
+        print(1)
