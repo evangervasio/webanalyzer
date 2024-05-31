@@ -8,24 +8,19 @@
 </head>
 
 <body>
-    <form method="POST">
+    <form method="POST" action="/exchange">
         <label for="coin">Enter coin name:</label>
         <input type="text" id="coin" name="coin"> <br>
 
         <label for="exchange">Select exchange:</label>
         <select id="exchange" name="exchange">
             {% for exchange in exchanges %}
-            <option value="{{ exchange.id }}">{{ exchange }}</option>
+            <option value="{{ exchange }}">{{ exchange }}</option>
             {% endfor %}
         </select> <br>
 
         <button type="submit">Submit</button>
     </form>
-
-    {% if raw_data %}
-    <h2>Raw Data:</h2>
-    <pre>{{ raw_data }}</pre>
-    {% endif %}
 </body>
 
 </html>
