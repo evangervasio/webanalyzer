@@ -28,15 +28,17 @@ class CoinloreApi:
             print("Error occurred:", e)
             return False
         
-    def apiCoin(self):
-        url="/coin/markets/?id=90"
+    def getCoin(self):
+        url="ticker/?id="+self.coin
         self.call_api_once(url)
 
-    def apiExchange(self):
+    def getExchange(self):
+        url="exchange/?id="+self.exchange
+        self.call_api_once(url)
         print(1)
 
-    def apiGraphCoin(self):
+    def getAllCoins(self):
         print(1)
     
-    def apiGraphExchange(self):
+    def getAllExchanges(self):
         print(1)
