@@ -32,6 +32,21 @@
                 </p>
             </div>
         </div>
+
+        <!-- Graphs -->
+        <h3 class="mt-5">Price Change Graphs</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <canvas id="change1hChart" width="400" height="400"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="change24hChart" width="400" height="400"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="change7dChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+
         {% else %}
         <p>No data available for the selected coin.</p>
         {% endif %}
@@ -42,6 +57,82 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data for the charts
+        const change1h = {{ coin_data[0].percent_change_1h }};
+        const change24h = {{ coin_data[0].percent_change_24h }};
+        const change7d = {{ coin_data[0].percent_change_7d }};
+
+        // 1-hour change chart
+        const ctx1h = document.getElementById('change1hChart').getContext('2d');
+        const change1hChart = new Chart(ctx1h, {
+            type: 'bar',
+            data: {
+                labels: ['1 Hour'],
+                datasets: [{
+                    label: 'Change 1h (%)',
+                    data: [change1h],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // 24-hour change chart
+        const ctx24h = document.getElementById('change24hChart').getContext('2d');
+        const change24hChart = new Chart(ctx24h, {
+            type: 'bar',
+            data: {
+                labels: ['24 Hours'],
+                datasets: [{
+                    label: 'Change 24h (%)',
+                    data: [change24h],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // 7-day change chart
+        const ctx7d = document.getElementById('change7dChart').getContext('2d');
+        const change7dChart = new Chart(ctx7d, {
+            type: 'bar',
+            data: {
+                labels: ['7 Days'],
+                datasets: [{
+                    label: 'Change 7d (%)',
+                    data: [change7d],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
